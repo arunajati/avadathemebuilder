@@ -1,0 +1,17 @@
+function set_tenant_featured_image( $post_id ) {
+    $post_type = get_post_type( $post_id );
+    
+    // Only run for the "tenant" custom post type
+    if ( $post_type == 'tenant' ) {
+        
+        // Get the ACF gallery field values
+        $images = get_field( 'images', $post_id );
+        
+        // Set the first image in the gallery as the featured image
+        if ( $images ) {
+            $image_id = $images[0]['ID'];
+            set_post_thumbnail( $post_id, $image_id );
+        }
+    }
+}
+add_action( 'acf/save_post', 'set_tenant_featured_image', 20 );
